@@ -37,7 +37,7 @@ def main() -> None:
             for name, (width, height) in VIEWS.items():
                 page = browser.new_page(viewport={"width": width, "height": height})
                 page.goto(url)
-                page.wait_for_selector(".card")
+                page.wait_for_selector("#list .row")
                 page.wait_for_timeout(700)  # let the entrance animation finish
                 page.screenshot(path=str(args.out / name))
                 overflow = page.evaluate("document.documentElement.scrollWidth > window.innerWidth")

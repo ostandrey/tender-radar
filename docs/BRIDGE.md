@@ -10,6 +10,11 @@ Daily radar of Ukrainian public IT tenders from Prozorro, static site on GitHub 
 
 ## Log (newest first)
 
+### 2026-11-17 — Claude (README screenshots)
+- **Owner said:** «треба в документації змінити фото в тендер радар» → «Retake both from the site».
+- **Did:** `docs/screens/desktop-1440.png` and `mobile-375.png` retaken from the current redesigned build (`site/`, data of 17 Nov 19:02), no horizontal overflow. `scripts/screenshot.py` waited for `.card`, which the redesign removed → now `#list .row`. Ran it with the Hiring Screener venv's Playwright (not a dependency here).
+- **Skills:** — · agents: —
+
 ### 2026-11-17 - Claude (live check after the first CD run)
 - **Owner said:** «запушив, перевір tender radar».
 - **Did:** push triggered «Update radar» (event push) — CD works; ~25 s run (details only for 2 new tenders). Live: 219 tenders, all with `published`, 215 with documents, 0 errors; 25 rows/page, pager, drawer with documents, URL state, phone at 375 px without overflow. Bug found live: the drawer printed «null» when a tender has no extra description → `fill()` helper that skips null; checked 10 drawers locally, 0 «null».

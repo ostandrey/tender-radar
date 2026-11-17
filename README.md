@@ -4,7 +4,7 @@ A daily radar of open Ukrainian **public IT tenders** from [Prozorro](https://pr
 
 It is a static website on GitHub Pages, refreshed every day by GitHub Actions. No server, no database, no API keys.
 
-**Live:** https://ostandrey.github.io/tender-radar/ — refreshed daily at 04:30 UTC by GitHub Actions.
+**Live:** https://ostandrey.github.io/tender-radar/ — refreshed daily at 04:30 UTC and redeployed on every push to `main` (GitHub Actions).
 
 ![Desktop view](docs/screens/desktop-1440.png)
 

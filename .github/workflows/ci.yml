@@ -1,7 +1,10 @@
 name: CI
 
+# Tests for branches and pull requests. On main the "Update radar" workflow runs the same tests
+# before it deploys, so CI skips main to avoid running them twice.
 on:
   push:
+    branches-ignore: [main]
   pull_request:
 
 permissions:

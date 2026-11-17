@@ -1,10 +1,19 @@
 name: Update radar
 
-# Daily refresh: collect tenders, build the static site, publish it to GitHub Pages.
+# Collect tenders, build the static site, publish it to GitHub Pages.
+# Runs every day, on every push to main that changes the app (continuous deployment), and by hand.
+# A push is cheap for Prozorro: details are fetched only for tenders the published dataset doesn't have yet.
 # One-time setup: repository Settings -> Pages -> Source: "GitHub Actions".
 on:
   schedule:
     - cron: "30 4 * * *" # 04:30 UTC every day
+  push:
+    branches: [main]
+    paths:
+      - "tender_radar/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - ".github/workflows/update.yml"
   workflow_dispatch:
 
 permissions:

@@ -46,6 +46,8 @@
     s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true");
     const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", path); s.append(p); return s;
   };
+  /** replaceChildren that skips null/false — optional sections never render as the text "null". */
+  const fill = (node, ...kids) => node.replaceChildren(...kids.flat().filter((k) => k != null && k !== false));
   const STAR = "m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z";
   const X = "M6 6l12 12M18 6 6 18";
   const store = {
@@ -240,7 +242,7 @@
     const total = base.reduce((s, t) => s + (t.amount_uah || 0), 0);
     const next = open.map((t) => ms(t.deadline)).filter((x) => x != null).sort((a, b) => a - b)[0];
     const closed = base.length - open.length;
-    $("short-summary").replaceChildren(el("strong", { text: `${S.short.size} tender${S.short.size === 1 ? "" : "s"}` }),
+    fill($("short-summary"),el("strong", { text: `${S.short.size} tender${S.short.size === 1 ? "" : "s"}` }),
       ` · total ${money(total)}`, next ? ` · next deadline ${fmtDate(new Date(next).toISOString(), true)}` : "", closed ? ` · ${closed} closed` : "");
   }
 
@@ -324,7 +326,7 @@
     const dt = (k, v) => el("div", {}, el("dt", { text: k }), el("dd", { text: v || "—" }));
     const step = (k, iso, cls) => el("li", { class: cls || null }, el("span", { class: "k", text: k }), fmtDate(iso, true));
     const e = ms(t.enquiry_end), d = ms(t.deadline);
-    $("drawer-body").replaceChildren(
+    fill($("drawer-body"),
       el("div", { class: "chips" }, ...(t.categories || []).map((c) => el("span", { class: "chip", text: c })), isNew(t) ? el("span", { class: "chip new", text: "New" }) : null),
       el("h2", { class: "d-title", id: "d-title", text: t.title }),
       el("p", { class: "d-buyer", text: [t.buyer, t.region].filter(Boolean).join(" · ") }),

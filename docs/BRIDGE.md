@@ -10,6 +10,11 @@ Daily radar of Ukrainian public IT tenders from Prozorro, static site on GitHub 
 
 ## Log (newest first)
 
+### 2026-11-17 - Claude (live check after the first CD run)
+- **Owner said:** «запушив, перевір tender radar».
+- **Did:** push triggered «Update radar» (event push) — CD works; ~25 s run (details only for 2 new tenders). Live: 219 tenders, all with `published`, 215 with documents, 0 errors; 25 rows/page, pager, drawer with documents, URL state, phone at 375 px without overflow. Bug found live: the drawer printed «null» when a tender has no extra description → `fill()` helper that skips null; checked 10 drawers locally, 0 «null».
+- **Skills:** — · agents: —
+
 ### 2026-11-17 - Claude (continuous deployment)
 - **Owner said:** «де CI/CD, щоб я не тиснув Run workflow постійно».
 - **Did:** `update.yml` also runs on push to `main` when the app, tests or the workflow change (tests → collect → build → deploy); `ci.yml` now covers other branches and PRs only, so main isn't tested twice.

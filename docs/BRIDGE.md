@@ -10,6 +10,11 @@ Daily radar of Ukrainian public IT tenders from Prozorro, static site on GitHub 
 
 ## Log (newest first)
 
+### 2026-11-17 - Claude (first deploy)
+- **Owner said:** «перевір tender radar» after making the repo public and running «Update radar».
+- **Did:** checked via GitHub API and HTTP: all workflow steps green; 211 tenders, 0 errors, NBU rates; site, data, robots.txt, sitemap.xml, og.png served; canonical and og:image absolute. Live link in README. Known small bug for the Owner (phase 1 exercise): `meta.json` counts `new` (213) before expired tenders are dropped, so new > total (211).
+- **Skills:** — · agents: —
+
 ### 2026-11-17 - Claude (review, phone, SEO)
 - **Owner said:** «так, роби все разом» (phone layout, link previews, SEO).
 - **Did:** reviewed the helper's build (tests, brand scan, workflow, screenshots); removed the empty `grant_finder/`. Phone: secondary filters behind a «Filters · N» button (N = active filters); fixed a `.open` class clash with the «Open on Prozorro» link. SEO: canonical, Open Graph/Twitter tags, `og.png`, `robots.txt`, `sitemap.xml`; `build-site --base-url` (the workflow passes the Pages URL). 48 tests green.

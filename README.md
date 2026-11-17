@@ -72,6 +72,10 @@ tests/               pytest suite, fixtures in tests/fixtures/
 
 Prozorro matches CPV filters by exact 10-character code, so `config.py` lists concrete codes: IT services (`72*`: software development, web and internet services, hosting, support, networks, audit) and software packages / information systems (`48*`). Hardware (`30200000` computer equipment) is left out on purpose: the radar is about software and services work. A few text queries (CRM, ERP, кібербезпека, хостинг, веб-сайт) catch tenders filed under a "wrong" CPV; those are kept only if the text also matches at least two keywords.
 
+## The page
+
+Light, document-like list with pagination (25/50/100), filters with live counts (category, deadline, budget, procedure, region), search, sort, a details panel (timeline, bid security, tender documents), a **shortlist** stored in the browser with total value, next deadline and CSV export, and the state in the URL so links and the back button keep your place. Design decisions: [`docs/DESIGN.md`](docs/DESIGN.md).
+
 ## Search engines and link previews
 
 `build-site --base-url https://<owner>.github.io/<repo>/` writes canonical and Open Graph tags with absolute URLs, `robots.txt` and `sitemap.xml`; the daily workflow passes the Pages URL. This site shows real public data, so it is open to indexing.

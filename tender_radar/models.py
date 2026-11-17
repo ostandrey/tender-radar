@@ -49,6 +49,12 @@ class Tender:
     url: str = ""
     first_seen: str = ""  # YYYY-MM-DD, the first run that saw this tender
     score: int = 0  # relevance 0..100
+    published: str = ""  # tenderPeriod.startDate (when bids opened), ISO 8601
+    enquiry_end: str = ""  # last day for questions to the buyer
+    method: str = ""  # procurement method, human label (e.g. "Open tender")
+    guarantee: float | None = None  # bid security in UAH, if the buyer asks for one
+    description: str = ""  # buyer's description + lot/item texts, shortened
+    documents: list[dict[str, str]] = field(default_factory=list)  # [{"title", "url"}], tender documents
 
     def __post_init__(self) -> None:
         self.url = strip_tracking(self.url) or tender_url(self.id)

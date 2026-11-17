@@ -52,6 +52,11 @@ class TenderDetails:
     cpv_code: str = ""
     cpv_label: str = ""
     description: str = ""
+    published: str = ""
+    enquiry_end: str = ""
+    method: str = ""
+    guarantee: float | None = None
+    documents: tuple[tuple[str, str], ...] = ()
 
 
 def parse_search_page(data: dict[str, Any]) -> tuple[int, list[SearchHit]]:
@@ -80,6 +85,36 @@ def parse_search_page(data: dict[str, Any]) -> tuple[int, list[SearchHit]]:
     return int(data.get("total") or 0), hits
 
 
+# Prozorro procurementMethodType -> what a bidder calls it.
+METHOD_LABELS = {
+    "aboveThreshold": "Open tender",
+    "aboveThresholdUA": "Open tender",
+    "aboveThresholdEU": "Open tender (EU)",
+    "belowThreshold": "Simplified procurement",
+    "competitiveOrdering": "Competitive ordering",
+    "competitiveDialogueUA": "Competitive dialogue",
+    "negotiation": "Negotiated procedure",
+    "reporting": "Direct contract",
+    "priceQuotation": "Price quotation",
+    "requestForProposal": "Request for proposals",
+}
+MAX_DOCUMENTS = 8
+MAX_DESCRIPTION = 700
+
+
+def _documents(data: dict[str, Any]) -> tuple[tuple[str, str], ...]:
+    """Public tender documents as (title, url), newest version of each, signatures skipped."""
+    out: list[tuple[str, str]] = []
+    for versions in (data.get("publicDocuments") or {}).values():
+        if not versions:
+            continue
+        doc = versions[-1] if isinstance(versions, list) else versions
+        title, url = clean(doc.get("title")), doc.get("url") or ""
+        if title and url and not title.lower().endswith(".p7s"):
+            out.append((title, url))
+    return tuple(out[:MAX_DOCUMENTS])
+
+
 def parse_details(data: dict[str, Any]) -> TenderDetails:
     """Extract region, CPV and description from a details response.
 
@@ -101,11 +136,20 @@ def parse_details(data: dict[str, Any]) -> TenderDetails:
     parts += [clean(lot.get("title")) for lot in data.get("lots") or []]
     parts += [clean((item or {}).get("description")) for item in data.get("items") or []]
     address = (data.get("procuringEntity") or {}).get("address") or {}
+    tender_period = data.get("tenderPeriod") or {}
+    method_type = data.get("procurementMethodType") or ""
+    guarantee = (data.get("guarantee") or {}).get("amount")
+    description = " | ".join(dict.fromkeys(p for p in parts if p))
     return TenderDetails(
         region=clean(address.get("region")),
         cpv_code=code,
         cpv_label=label,
-        description=" | ".join(dict.fromkeys(p for p in parts if p)),
+        description=description,
+        published=tender_period.get("startDate") or data.get("noticePublicationDate") or "",
+        enquiry_end=(data.get("enquiryPeriod") or {}).get("endDate") or "",
+        method=METHOD_LABELS.get(method_type, method_type),
+        guarantee=float(guarantee) if isinstance(guarantee, (int, float)) and guarantee > 0 else None,
+        documents=_documents(data),
     )
 
 

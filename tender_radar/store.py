@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 
 # Fields filled from the details card. A refresh from the search list leaves
 # them empty, so we keep the stored values.
-DETAIL_FIELDS = ("region", "cpv_code", "cpv_label", "categories", "score")
+DETAIL_FIELDS = ("region", "cpv_code", "cpv_label", "categories", "score", "published", "enquiry_end", "method", "guarantee", "description", "documents")
 
 
 def load_previous(location: str | None, timeout: float = 20.0) -> list[Tender]:

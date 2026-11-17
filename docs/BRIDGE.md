@@ -10,6 +10,11 @@ Daily radar of Ukrainian public IT tenders from Prozorro, static site on GitHub 
 
 ## Log (newest first)
 
+### 2026-11-17 - Claude (redesign through ui-design)
+- **Owner said:** dark theme disliked, «нейрослоп», no pagination, nowhere to shortlist, hard to read; approved the light procurement-portal direction («так»).
+- **Did:** reference board (Prozorro, UK Find a Tender, Contracts Finder, SAM.gov, Djinni, GOV.UK patterns) → `docs/DESIGN.md`; new UI: Onest (self-hosted, OFL), filters with counts, pagination, shortlist (localStorage, CSV, copy, undo), details drawer with timeline and documents, deadline ruler, URL state, all states. Data: new fields `published`, `enquiry_end`, `method`, `guarantee`, `description`, `documents` (re-fetched once for old records). Review on screenshots 1440/375 found and fixed 4 issues. 48 tests green.
+- **Skills:** ui-design, ux-review (manual pass) · agents: —
+
 ### 2026-11-17 - Claude (first deploy)
 - **Owner said:** «перевір tender radar» after making the repo public and running «Update radar».
 - **Did:** checked via GitHub API and HTTP: all workflow steps green; 211 tenders, 0 errors, NBU rates; site, data, robots.txt, sitemap.xml, og.png served; canonical and og:image absolute. Live link in README. Known small bug for the Owner (phase 1 exercise): `meta.json` counts `new` (213) before expired tenders are dropped, so new > total (211).

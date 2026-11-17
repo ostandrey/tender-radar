@@ -25,7 +25,7 @@ from .config import (CATEGORIES, CPV_CODES, DETAIL_CONCURRENCY, FALLBACK_CATEGOR
                       PAGE_SIZE, TEXT_ONLY_MIN_SCORE, TEXT_QUERIES)
 from .currency import RateProvider
 from .models import Tender, tender_url
-from .sources.prozorro import ProzorroSource, SearchHit, TenderDetails
+from .sources.prozorro import MAX_DESCRIPTION, ProzorroSource, SearchHit, TenderDetails
 from .textmatch import KeywordMatcher
 
 log = logging.getLogger(__name__)
@@ -186,6 +186,12 @@ class Collector:
             url=tender_url(hit.id),
             first_seen=self._today,
             score=score,
+            published=details.published,
+            enquiry_end=details.enquiry_end,
+            method=details.method,
+            guarantee=details.guarantee,
+            description=details.description[:MAX_DESCRIPTION],
+            documents=[{"title": t, "url": u} for t, u in details.documents],
         )
 
     def _error(self, message: str) -> None:

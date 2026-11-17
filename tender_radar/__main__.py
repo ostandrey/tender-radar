@@ -51,7 +51,7 @@ async def run_collect(args: argparse.Namespace) -> int:
         limiter = RateLimiter(config.REQUESTS_PER_MINUTE)
         api = ApiClient(client, limiter, retries=config.MAX_RETRIES, backoff=config.BACKOFF_BASE)
         collector = Collector(ProzorroSource(api), rates, build_matcher(),
-                              known_ids={t.id for t in previous}, today=today, max_pages=args.max_pages)
+                              known_ids={t.id for t in previous if t.published}, today=today, max_pages=args.max_pages)
         current = await collector.collect()
 
     previous_ids = {t.id for t in previous}

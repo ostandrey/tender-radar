@@ -1,0 +1,12 @@
+[
+ {
+  "cc": "EUR",
+  "rate": 40.0,
+  "exchangedate": "01.01.2099"
+ },
+ {
+  "cc": "USD",
+  "rate": 37.5,
+  "exchangedate": "01.01.2099"
+ }
+]

@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+
+# Generated site (published by GitHub Actions, never committed)
+site/
+
+# Scratch
+.tmp/
+
+# Secrets
+.env
+.env.*
+!.env.example

@@ -1,0 +1,53 @@
+name: Update radar
+
+# Daily refresh: collect tenders, build the static site, publish it to GitHub Pages.
+# One-time setup: repository Settings -> Pages -> Source: "GitHub Actions".
+on:
+  schedule:
+    - cron: "30 4 * * *" # 04:30 UTC every day
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m pytest -q
+
+      # The published site is the database: read yesterday's tenders.json back.
+      # On the very first run the URL answers 404, which the collector treats as "no history".
+      - name: Collect tenders
+        run: >
+          python -m tender_radar collect
+          --previous "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/data/tenders.json"
+          --out site/data
+
+      - name: Build site
+        run: >
+          python -m tender_radar build-site --out site
+          --base-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

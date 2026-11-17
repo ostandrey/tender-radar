@@ -1,0 +1,21 @@
+{
+ "tenderID": "UA-2099-01-01-000002-a",
+ "description": "Щорічне ліцензування",
+ "generalClassifier": {
+  "scheme": "ДК021",
+  "description": "ДК 021:2015: 72267000-4 — Послуги з обслуговування та ремонту програмного забезпечення"
+ },
+ "procuringEntity": {
+  "name": "x",
+  "address": {
+   "locality": "Тестоград",
+   "region": "Умовна область"
+  }
+ },
+ "items": [],
+ "lots": [
+  {
+   "title": "Лот 1"
+  }
+ ]
+}

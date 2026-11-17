@@ -1,0 +1,21 @@
+{
+ "tenderID": "UA-2099-01-01-000001-a",
+ "description": "Створення сайту та інтернет-порталу",
+ "generalClassifier": {
+  "scheme": "ДК021",
+  "description": "ДК 021:2015: 72413000-8 — Послуги з веб-дизайну"
+ },
+ "procuringEntity": {
+  "name": "x",
+  "address": {
+   "locality": "Тестоград",
+   "region": "Вигаданська область"
+  }
+ },
+ "items": [],
+ "lots": [
+  {
+   "title": "Лот 1"
+  }
+ ]
+}
